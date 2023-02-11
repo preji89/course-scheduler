@@ -17,7 +17,7 @@ public class CommandHandler {
             case ADD_COURSE_OFFERING: {
                 String courseName = params[0];
                 String instructor = params[1];
-                SimpleDateFormat format = new SimpleDateFormat("ddmmyyyy");
+                SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy");
                 Date date= format.parse(params[2]);
                 int minEmployees = Integer.parseInt(params[3]);
                 int maxEmployees = Integer.parseInt(params[4]);
@@ -31,16 +31,19 @@ public class CommandHandler {
                 return courseRegistry.register(course,employee);
             }
 
+            case ALLOT: {
+                String courseOfferingId = params[0];
+                Course course = courseOffering.getCourseFromCourseOfferingId(courseOfferingId);
+                course.setAllotted(true);
+                return courseRegistry.allot(course);
+            }
+
             case CANCEL: {
                 String courseRegistrationId = params[0];
                 return courseRegistry.cancel(courseRegistrationId);
             }
 
-            case ALLOT: {
-                String courseOfferingId = params[0];
-                Course course = courseOffering.getCourseFromCourseOfferingId(courseOfferingId);
-                return courseRegistry.allot(course);
-            }
+
             default:
                 return "";
 

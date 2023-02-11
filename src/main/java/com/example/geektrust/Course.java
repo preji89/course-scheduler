@@ -10,6 +10,7 @@ public class Course {
     private Date dateOfStart;
     private int minEmployees;
     private int maxEmployees;
+    private boolean isAllotted;
     private List <Employee> registeredEmployees = new ArrayList<>();
 
 
@@ -19,6 +20,7 @@ public class Course {
         this.dateOfStart = date;
         this.minEmployees = minEmployees;
         this.maxEmployees = maxEmployees;
+        this.isAllotted = false;
     }
 
     public String generateCourseOfferingId(){
@@ -27,10 +29,10 @@ public class Course {
 
     String register(Employee employee) {
         Date today = new Date();
-        if (dateOfStart.after(today) && registeredEmployees.size()<minEmployees){
-            return "COURSE_CANCELED";
+        if (dateOfStart.before(today) && registeredEmployees.size()<minEmployees){
+            return "COURSE_CANCELLED";
         }
-        if (registeredEmployees.size() > maxEmployees) {
+        if (registeredEmployees.size() >= maxEmployees) {
             return "COURSE_FULL_ERROR";
         }
         registeredEmployees.add(employee);
@@ -41,7 +43,7 @@ public class Course {
 
     String cancel(Employee employee) {
         Date today = new Date();
-        if(dateOfStart.before(today)){
+        if(!isAllotted){
             registeredEmployees.remove(employee);
             return "CANCEL_ACCEPTED";
         }else {
@@ -54,9 +56,12 @@ public class Course {
         return courseName;
     }
 
+    public void setAllotted(boolean allotted) {
+        isAllotted = allotted;
+    }
 
     public String allotEntry() {
-        SimpleDateFormat formatter = new SimpleDateFormat("ddmmyyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
         return this.generateCourseOfferingId() + " "
                 + courseName+" "
                 + instructor+" "

@@ -10,14 +10,15 @@ public enum Command {
     ALLOT("ALLOT",1);
 
     private final String text;
-    private int noOfParams;
+    private int expectedNoOfParams;
 
-    Command(String text, int noOfParams) {
+
+    Command(String text, int expectedNoOfParams) {
         this.text = text;
-        this.noOfParams = noOfParams;
+        this.expectedNoOfParams = expectedNoOfParams;
     }
     public int noOfParams (){
-        return noOfParams;
+        return expectedNoOfParams;
     }
     public static Optional<Command> getCommandFromText(String text) {
         return Arrays.stream(values())
