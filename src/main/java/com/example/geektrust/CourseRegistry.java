@@ -40,15 +40,15 @@ public class CourseRegistry {
     public String allot(Course course) {
 
         List<CourseRegistryEntry> allottedList = courseRegistrationEntries.stream().filter(entry -> entry.getCourse().equals(course)).collect(Collectors.toList());
-        Comparator<CourseRegistryEntry> courseRegistryEntryComparator = (CourseRegistryEntry e1, CourseRegistryEntry e2) -> e1.courseRegistrationId.compareTo(e2.courseRegistrationId);
-        Collections.sort(allottedList, courseRegistryEntryComparator);
+        Comparator<CourseRegistryEntry> comparingByCourseRegId = (CourseRegistryEntry e1, CourseRegistryEntry e2) -> e1.courseRegistrationId.compareTo(e2.courseRegistrationId);
+        Collections.sort(allottedList, comparingByCourseRegId);
         String allotOutput="";
         for (CourseRegistryEntry allottedEntry :
                 allottedList) {
              allotOutput+=allottedEntry.courseRegistrationId + " "
                     + allottedEntry.getEmployee().getEmail() + " "
-                    +course.allotEntry()
-                    + " CONFIRMED\n";
+                    +course.allotEntry()+"\n";
+
         }
     return allotOutput;
 

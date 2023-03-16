@@ -43,7 +43,6 @@ public class CommandHandler {
                 return courseRegistry.cancel(courseRegistrationId);
             }
 
-
             default:
                 return "";
 

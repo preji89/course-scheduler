@@ -28,16 +28,11 @@ public class Course {
     }
 
     String register(Employee employee) {
-        Date today = new Date();
-        if (dateOfStart.before(today) && registeredEmployees.size()<minEmployees){
-            return "COURSE_CANCELLED";
-        }
         if (registeredEmployees.size() >= maxEmployees) {
             return "COURSE_FULL_ERROR";
         }
         registeredEmployees.add(employee);
         return "ACCEPTED";
-
     }
 
 
@@ -62,9 +57,11 @@ public class Course {
 
     public String allotEntry() {
         SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
+        String courseStatus = registeredEmployees.size()<minEmployees?"COURSE_CANCELED":"CONFIRMED";
         return this.generateCourseOfferingId() + " "
                 + courseName+" "
                 + instructor+" "
-                +formatter.format(dateOfStart);
+                +formatter.format(dateOfStart)+" "
+                +courseStatus;
     }
 }

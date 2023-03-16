@@ -79,19 +79,6 @@ public class CommandHandlerTest {
             assertEquals(expected, actual);
         }
 
-        @Test
-        void shouldReturnStatusAsCourseCancelledWhenCommandIsRegisterAndMinEmployeesNotRegisteredAfterStartDate() throws ParseException {
-            String[] params = {"JAVA", "JOHN", "15062020", "1", "2"};
-            commandHandler.handleCommand(addCourseOfferingCommand, params);
-
-            String[] params1 = {"WOO@GMAIL.COM", "OFFERING-JAVA-JOHN"};
-            String expected = "COURSE_CANCELLED";
-
-            String actual = commandHandler.handleCommand(registerCommand, params1);
-
-            assertEquals(expected, actual);
-        }
-
     }
 
     @Nested
@@ -115,6 +102,22 @@ public class CommandHandlerTest {
             String expected = "REG-COURSE-ANDY-PYTHON ANDY@GMAIL.COM OFFERING-PYTHON-JOHN PYTHON JOHN 05062023 CONFIRMED\n" +
                             "REG-COURSE-BOBY-PYTHON BOBY@GMAIL.COM OFFERING-PYTHON-JOHN PYTHON JOHN 05062023 CONFIRMED\n" +
                             "REG-COURSE-WOO-PYTHON WOO@GMAIL.COM OFFERING-PYTHON-JOHN PYTHON JOHN 05062023 CONFIRMED\n";
+            String actual = commandHandler.handleCommand(allotCommand, params);
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldReturnAllottedEmployeesAndStatusAsCourseCancelledWhenMinEmployeesAreNotRegistered() throws ParseException {
+            String[] params1 = {"GO", "JOHN", "05062023", "2", "3"};
+            commandHandler.handleCommand(addCourseOfferingCommand, params1);
+            String[] params2 = {"ANDY@GMAIL.COM", "OFFERING-GO-JOHN"};
+            commandHandler.handleCommand(registerCommand, params2);
+
+            String[] params = {"OFFERING-GO-JOHN"};
+
+            String expected = "REG-COURSE-ANDY-GO ANDY@GMAIL.COM OFFERING-GO-JOHN GO JOHN 05062023 COURSE_CANCELED\n";
+
             String actual = commandHandler.handleCommand(allotCommand, params);
 
             assertEquals(expected, actual);
